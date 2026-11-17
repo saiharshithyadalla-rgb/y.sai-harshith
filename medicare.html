@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MediCare+ Hospital Management</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#eef4f3;--panel:#fff;--ink:#12302f;--mute:#5d7776;--line:#d3e0de;--brand:#0c7c74;--brand2:#e8f4f2;--warn:#c4571a;--bad:#b3261e;--ok:#1b7f4b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a1a;--panel:#142626;--ink:#e3f1ef;--mute:#8fb0ad;--line:#27403f;--brand:#3cc2b6;--brand2:#18403d;--warn:#f08a4b;--bad:#ff8a80;--ok:#6fdc9f}}
+:root[data-theme="dark"]{--bg:#0d1a1a;--panel:#142626;--ink:#e3f1ef;--mute:#8fb0ad;--line:#27403f;--brand:#3cc2b6;--brand2:#18403d;--warn:#f08a4b;--bad:#ff8a80;--ok:#6fdc9f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Figtree,system-ui,sans-serif}
+header{background:var(--brand);color:#fff;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+:root[data-theme="dark"] header,:root:not([data-theme="light"]) header{}
+header h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em}
+header small{opacity:.85;display:block;font-weight:400;font-size:12px}
+.hb button{background:rgba(255,255,255,.18);color:#fff;border:0;padding:7px 12px;border-radius:6px;cursor:pointer;margin-left:6px;font:inherit;font-size:13px}
+nav{display:flex;gap:2px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--line);padding:0 12px}
+nav button{background:none;border:0;border-bottom:3px solid transparent;padding:12px 14px;color:var(--mute);font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--brand);border-color:var(--brand)}
+main{max-width:1100px;margin:0 auto;padding:18px 14px 60px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.card h2{margin:0 0 10px;font-size:17px}
+label{display:block;font-size:12px;color:var(--mute);margin:8px 0 2px;font-weight:600}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{background:var(--brand);color:#fff;border:0;padding:9px 16px;border-radius:6px;font:inherit;font-weight:600;cursor:pointer;margin-top:12px}
+.btn.alt{background:var(--brand2);color:var(--brand)}
+.sm{padding:4px 9px;margin:0;font-size:12px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--mute);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.stat{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:8px;padding:12px}
+.stat b{font-size:26px;display:block;letter-spacing:-.02em}.stat span{color:var(--mute);font-size:13px}
+.alert{padding:9px 12px;border-radius:6px;margin-bottom:8px;font-size:14px;background:#fdeee3;color:#8a3d0f;border-left:4px solid var(--warn)}
+.alert.bad{background:#fde7e5;color:#8c1d18;border-color:var(--bad)}
+:root[data-theme="dark"] .alert{background:#3a2616;color:#ffd0b0}:root[data-theme="dark"] .alert.bad{background:#3d1b19;color:#ffc9c4}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .alert{background:#3a2616;color:#ffd0b0}:root:not([data-theme="light"]) .alert.bad{background:#3d1b19;color:#ffc9c4}}
+.bar{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}.bar i{display:block;height:14px;background:var(--brand);border-radius:3px;min-width:3px}.bar em{width:110px;font-style:normal;color:var(--mute);flex:none}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:600;background:var(--brand2);color:var(--brand)}
+.tag.e{background:#fde7e5;color:var(--bad)}.tag.ok{background:#e0f4e8;color:var(--ok)}
+.ward{margin-bottom:12px}.beds{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.bed{border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12px;text-align:center;background:var(--brand2);min-height:58px}
+.bed.occ{background:var(--panel);border-color:var(--bad);border-width:2px;cursor:pointer}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:#12302f;color:#fff;padding:10px 16px;border-radius:8px;display:none;z-index:9;max-width:90%;font-size:14px}
+#toast.err{background:var(--bad);color:#fff}
+pre{white-space:pre-wrap;background:var(--bg);padding:12px;border-radius:8px;font-size:13px;border:1px dashed var(--line)}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header><h1>MediCare+<small>Smart Hospital &amp; Patient Care Management</small></h1>
+<div class="hb"><button id="exp">Export data</button><button id="imp">Import data</button><button id="rst">Reset demo</button><input type="file" id="file" accept=".json" class="hide"></div></header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<div id="toast" role="status"></div>
+<script>
+const TODAY=()=>new Date().toISOString().slice(0,10);
+const FEES={General:300,Specialist:800,Emergency:1500};
+const WARDS=[["General Ward",1000],["ICU",4000],["Private Room",2500]];
+const KEY="medicare_plus_v1";
+class HospitalError extends Error{constructor(n,m){super(m);this.name=n}}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+function seed(){return{
+ doctors:[{id:"D1",name:"Dr. Anita Rao",dept:"Cardiology",days:[1,2,3,4,5]},{id:"D2",name:"Dr. Kiran Shah",dept:"General Medicine",days:[1,2,3,4,5,6]},{id:"D3",name:"Dr. Meera Iyer",dept:"Orthopedics",days:[2,4,6]},{id:"D4",name:"Dr. Sam Joseph",dept:"Emergency",days:[0,1,2,3,4,5,6]}],
+ patients:[{id:"P101",name:"Ravi Kumar",dob:"1985-04-12",phone:"9876543210",type:"OutPatient",dept:"Cardiology",dx:"Hypertension",wt:78,ht:172,admitted:false,room:0,pend:0},
+  {id:"P102",name:"Sneha Reddy",dob:"1999-09-30",phone:"9123456780",type:"InPatient",dept:"Orthopedics",dx:"Fracture",wt:55,ht:160,admitted:false,room:0,pend:0},
+  {id:"P103",name:"Arjun Mehta",dob:"1962-01-05",phone:"9988776655",type:"EmergencyPatient",dept:"Emergency",dx:"Chest pain",wt:82,ht:175,admitted:false,room:0,pend:0}],
+ appts:[],rx:[],bills:[],
+ meds:[{n:"Paracetamol 500mg",p:2,s:200},{n:"Amoxicillin 250mg",p:12,s:80},{n:"Atorvastatin 10mg",p:9,s:60},{n:"Ibuprofen 400mg",p:4,s:12},{n:"Insulin pen",p:450,s:15}],
+ beds:WARDS.map(()=>Array(6).fill(null))}}
+let S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+S=S||seed();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+function toast(m,err){const t=$("#toast");t.textContent=m;t.className=err?"err":"";t.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display="none",3200)}
+const age=d=>{const b=new Date(d),n=new Date();let a=n.getFullYear()-b.getFullYear();if(n<new Date(n.getFullYear(),b.getMonth(),b.getDate()))a--;return a};
+const bmi=p=>p.wt/Math.pow(p.ht/100,2);
+const bmiTxt=v=>v<18.5?"Underweight":v<25?"Normal":v<30?"Overweight":"Obese";
+const pname=id=>(S.patients.find(p=>p.id===id)||{name:"?"}).name;
+const doc=id=>S.doctors.find(d=>d.id===id);
+const days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+// Overloaded-style fee calculation by consultation type
+function fee(type,urgent){return(FEES[type]||FEES.General)+(urgent?200:0)}
+// Recursion: recurring treatment schedule (sessions every `gap` days)
+function schedule(date,n,gap){return n<=0?[]:[date,...schedule(new Date(+new Date(date)+gap*864e5).toISOString().slice(0,10),n-1,gap)]}
+// groupBy helper (Collectors.groupingBy)
+const groupBy=(a,f)=>a.reduce((m,x)=>{(m[f(x)]=m[f(x)]||[]).push(x);return m},{});
+const TABS=["Dashboard","Patients","Appointments","Beds","Pharmacy","Billing"];
+let tab="Dashboard",pq="",psort="name",extra="";
+$("#nav").innerHTML=TABS.map(t=>`<button data-t="${t}">${t}</button>`).join("");
+$("#nav").onclick=e=>{if(e.target.dataset.t){tab=e.target.dataset.t;extra="";render()}};
+function bars(obj){const mx=Math.max(1,...Object.values(obj));return Object.entries(obj).map(([k,v])=>`<div class="bar"><em>${esc(k)}</em><i style="width:${v/mx*55}%"></i>${v}</div>`).join("")||"<p>No data yet.</p>"}
+function dashboard(){
+ const paid=S.bills.filter(b=>b.paid),rev=paid.reduce((s,b)=>s+b.total,0);
+ const consult=S.appts.map(a=>a.fee),avg=consult.length?consult.reduce((a,b)=>a+b,0)/consult.length:0;
+ const adm=S.patients.filter(p=>p.admitted),occ=S.beds.flat().filter(Boolean).length;
+ const overdue=S.appts.filter(a=>a.status==="Scheduled"&&a.date<TODAY()),unpaid=S.bills.filter(b=>!b.paid),low=S.meds.filter(m=>m.s<20);
+ const byDept=Object.fromEntries(Object.entries(groupBy(S.appts,a=>doc(a.doc)?.dept||"?")).map(([k,v])=>[k,v.length]));
+ const byType=Object.fromEntries(Object.entries(groupBy(S.patients,p=>p.type)).map(([k,v])=>[k,v.length]));
+ const dx=[...new Set(S.patients.map(p=>p.dx).filter(Boolean))];
+ return`<div class="stats"><div class="stat"><b>${S.patients.length}</b><span>Patients</span></div><div class="stat"><b>${adm.length}</b><span>Admitted</span></div><div class="stat"><b>${occ}/${S.beds.flat().length}</b><span>Beds occupied</span></div><div class="stat"><b>${inr(rev)}</b><span>Revenue collected</span></div><div class="stat"><b>${inr(avg)}</b><span>Avg consultation fee</span></div></div>
+ ${overdue.map(a=>`<div class="alert">Overdue appointment: ${esc(pname(a.pid))} with ${esc(doc(a.doc)?.name)} on ${a.date}</div>`).join("")}
+ ${unpaid.map(b=>`<div class="alert bad">Unpaid bill ${b.id}: ${esc(pname(b.pid))} owes ${inr(b.total)}</div>`).join("")}
+ ${low.map(m=>`<div class="alert">Low stock: ${esc(m.n)} (${m.s} left)</div>`).join("")}
+ <div class="grid"><div class="card"><h2>Appointments by department</h2>${bars(byDept)}</div><div class="card"><h2>Patients by type</h2>${bars(byType)}</div><div class="card"><h2>Unique diagnoses</h2><p>${dx.map(d=>`<span class="tag">${esc(d)}</span> `).join("")||"None"}</p><h2>Doctor schedule</h2>${S.doctors.map(d=>`<div>${esc(d.name)} <span class="tag">${days.filter((_,i)=>d.days.includes(i)).join(", ")}</span></div>`).join("")}</div></div>`}
+function patients(){
+ let L=S.patients.filter(p=>(p.name+p.id+p.dept+p.dx).toLowerCase().includes(pq.toLowerCase()));
+ const cmp={name:(a,b)=>a.name.localeCompare(b.name),age:(a,b)=>age(a.dob)-age(b.dob),dept:(a,b)=>a.dept.localeCompare(b.dept)}[psort];
+ L=[...L].sort(cmp);
+ return`<div class="grid"><div class="card"><h2>Register patient</h2><form id="pf" onsubmit="return false">
+ <div class="row"><div><label>Patient ID</label><input id="p_id" value="P${100+S.patients.length+1}"></div><div><label>Full name</label><input id="p_name"></div></div>
+ <div class="row"><div><label>Date of birth</label><input type="date" id="p_dob" max="${TODAY()}"></div><div><label>Phone (10 digits)</label><input id="p_ph" inputmode="numeric"></div></div>
+ <div class="row"><div><label>Weight (kg)</label><input type="number" id="p_wt"></div><div><label>Height (cm)</label><input type="number" id="p_ht"></div></div>
+ <div class="row"><div><label>Patient type</label><select id="p_type"><option>OutPatient</option><option>InPatient</option><option>EmergencyPatient</option></select></div><div><label>Department</label><select id="p_dept">${[...new Set(S.doctors.map(d=>d.dept))].map(d=>`<option>${d}</option>`).join("")}</select></div></div>
+ <label>Diagnosis</label><input id="p_dx"><button class="btn" id="p_go">Register patient</button></form>${extra}</div>
+ <div class="card" style="grid-column:1/-1"><h2>Patient records</h2><div class="row"><input id="q" placeholder="Search by name, ID, department, diagnosis" value="${esc(pq)}"><select id="srt"><option value="name">Sort by name</option><option value="age" ${psort=="age"?"selected":""}>Sort by age</option><option value="dept" ${psort=="dept"?"selected":""}>Sort by department</option></select></div>
+ <div class="tw"><table><tr><th>ID</th><th>Name</th><th>Age</th><th>BMI</th><th>Type</th><th>Department</th><th>Diagnosis</th></tr>${L.map(p=>`<tr><td>${p.id}</td><td>${esc(p.name)}</td><td>${age(p.dob)}</td><td>${bmi(p).toFixed(1)} ${bmiTxt(bmi(p))}</td><td><span class="tag ${p.type[0]=="E"?"e":""}">${p.type}</span></td><td>${esc(p.dept)}</td><td>${esc(p.dx)}</td></tr>`).join("")||"<tr><td colspan=7>No matching patients.</td></tr>"}</table></div></div></div>`}
+function addPatient(){try{
+ const v=i=>$("#"+i).value.trim(),id=v("p_id").toUpperCase();
+ if(S.patients.some(p=>p.id===id))throw new HospitalError("DuplicatePatientIdException","Patient ID "+id+" already exists.");
+ if(v("p_name").length<2||!/^[A-Za-z .'-]+$/.test(v("p_name")))throw new HospitalError("InvalidPatientException","Enter a valid name (letters only).");
+ if(!v("p_dob")||age(v("p_dob"))<0||age(v("p_dob"))>120)throw new HospitalError("InvalidPatientException","Enter a valid date of birth.");
+ if(!/^\d{10}$/.test(v("p_ph")))throw new HospitalError("InvalidPatientException","Phone number must be 10 digits.");
+ const wt=+v("p_wt"),ht=+v("p_ht");if(!(wt>1&&wt<400&&ht>30&&ht<260))throw new HospitalError("InvalidPatientException","Enter realistic weight and height.");
+ S.patients.push({id,name:v("p_name"),dob:v("p_dob"),phone:v("p_ph"),type:v("p_type"),dept:v("p_dept"),dx:v("p_dx"),wt,ht,admitted:false,room:0,pend:0});
+ save();toast("Registered "+v("p_name")+" ("+id+")");extra="";render()
+}catch(e){handle(e)}finally{}}
+const handle=e=>toast((e instanceof HospitalError?e.name+": ":"Error: ")+e.message,true);
+function appointments(){
+ const sl=[...S.appts].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+ return`<div class="grid"><div class="card"><h2>Book appointment</h2>
+ <label>Patient</label><select id="a_p">${S.patients.map(p=>`<option value="${p.id}">${p.id} · ${esc(p.name)}</option>`).join("")}</select>
+ <label>Doctor</label><select id="a_d">${S.doctors.map(d=>`<option value="${d.id}">${esc(d.name)} (${d.dept})</option>`).join("")}</select>
+ <div class="row"><div><label>Date</label><input type="date" id="a_dt" value="${TODAY()}"></div><div><label>Time</label><input type="time" id="a_tm" value="10:00"></div></div>
+ <div class="row"><div><label>Consultation type</label><select id="a_ty"><option>General</option><option>Specialist</option><option>Emergency</option></select></div><div><label>Urgent surcharge</label><select id="a_ur"><option value="0">No</option><option value="1">Yes (+₹200)</option></select></div></div>
+ <button class="btn" id="a_go">Book appointment</button></div>
+ <div class="card"><h2>Recurring treatment schedule</h2><p style="color:var(--mute);margin-top:0">Generated recursively from a start date.</p>
+ <div class="row"><div><label>Start date</label><input type="date" id="r_d" value="${TODAY()}"></div><div><label>Sessions</label><input type="number" id="r_n" value="4" min="1" max="12"></div></div><label>Days between sessions</label><input type="number" id="r_g" value="7" min="1"><button class="btn alt" id="r_go">Show schedule</button><pre id="r_out" class="hide"></pre></div>
+ <div class="card" style="grid-column:1/-1"><h2>Appointments</h2><div class="tw"><table><tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Type</th><th>Fee</th><th>Status</th><th></th></tr>${sl.map(a=>`<tr><td>${a.date}</td><td>${a.time}</td><td>${esc(pname(a.pid))}</td><td>${esc(doc(a.doc)?.name)}</td><td>${a.type}</td><td>${inr(a.fee)}</td><td><span class="tag ${a.status=="Scheduled"&&a.date<TODAY()?"e":a.status=="Completed"?"ok":""}">${a.status=="Scheduled"&&a.date<TODAY()?"Overdue":a.status}</span></td><td>${a.status=="Scheduled"?`<button class="btn sm" data-done="${a.id}">Complete</button> <button class="btn sm alt" data-cancel="${a.id}">Cancel</button>`:""}</td></tr>`).join("")||"<tr><td colspan=8>No appointments booked yet.</td></tr>"}</table></div></div></div>`}
+function book(){try{
+ const pid=$("#a_p").value,did=$("#a_d").value,date=$("#a_dt").value,time=$("#a_tm").value,ty=$("#a_ty").value,d=doc(did);
+ if(!date||!time||date<TODAY())throw new HospitalError("InvalidAppointmentException","Choose today or a future date and a time.");
+ if(!d.days.includes(new Date(date+"T00:00").getDay()))throw new HospitalError("DoctorUnavailableException",d.name+" is not available on "+days[new Date(date+"T00:00").getDay()]+". Available: "+days.filter((_,i)=>d.days.includes(i)).join(", ")+".");
+ if(time<"09:00"||time>"17:30")throw new HospitalError("InvalidAppointmentException","Appointments run 09:00 to 17:30.");
+ if(S.appts.some(a=>a.doc===did&&a.date===date&&a.time===time&&a.status!=="Cancelled"))throw new HospitalError("DoctorUnavailableException",d.name+" already has a booking at "+time+".");
+ const t=ty==="Emergency"?"Emergency":ty;
+ S.appts.push({id:"A"+Date.now().toString().slice(-6),pid,doc:did,date,time,type:t,fee:fee(t,$("#a_ur").value==="1"),status:"Scheduled",billed:false});
+ save();toast("Appointment booked.");render()
+}catch(e){handle(e)}}
+function beds(){
+ const free=S.patients.filter(p=>!p.admitted);
+ return`<div class="grid"><div class="card"><h2>Admit patient</h2><label>Patient</label><select id="b_p">${free.map(p=>`<option value="${p.id}">${p.id} · ${esc(p.name)}</option>`).join("")||"<option value=''>All patients admitted</option>"}</select>
+ <label>Ward</label><select id="b_w">${WARDS.map((w,i)=>`<option value="${i}">${w[0]} (${inr(w[1])}/day)</option>`).join("")}</select><button class="btn" id="b_go">Allocate first free bed</button>${extra}</div>
+ <div class="card" style="grid-column:1/-1"><h2>Bed allocation</h2>${S.beds.map((w,i)=>`<div class="ward"><b>${WARDS[i][0]}</b> <span style="color:var(--mute)">${w.filter(Boolean).length}/${w.length} occupied</span><div class="beds">${w.map((b,j)=>b?`<div class="bed occ" data-dis="${i},${j}"><b>${i+1}-${j+1}</b><br>${esc(pname(b.pid).split(" ")[0])}<br><u>Discharge</u></div>`:`<div class="bed"><b>${i+1}-${j+1}</b><br>Free</div>`).join("")}</div></div>`).join("")}</div></div>`}
+function admit(){try{
+ const pid=$("#b_p").value,w=+$("#b_w").value;if(!pid)throw new HospitalError("NoPatientException","No patient available to admit.");
+ const j=S.beds[w].findIndex(b=>!b);if(j<0)throw new HospitalError("BedUnavailableException",WARDS[w][0]+" is full.");
+ S.beds[w][j]={pid,since:TODAY()};const p=S.patients.find(p=>p.id===pid);p.admitted=true;save();toast(p.name+" admitted to bed "+(w+1)+"-"+(j+1));render()
+}catch(e){handle(e)}}
+function discharge(w,j){
+ const b=S.beds[w][j],p=S.patients.find(p=>p.id===b.pid),n=Math.max(1,Math.round((new Date(TODAY())-new Date(b.since))/864e5)),ch=n*WARDS[w][1];
+ const meds=S.rx.filter(r=>r.pid===p.id).map(r=>r.med+" x"+r.qty);
+ let sb=["DISCHARGE SUMMARY","-----------------","Patient : "+p.name+" ("+p.id+")","Age     : "+age(p.dob),"Diagnosis: "+p.dx,"Ward    : "+WARDS[w][0]+", bed "+(w+1)+"-"+(j+1),"Stay    : "+n+" day(s), "+b.since+" to "+TODAY(),"Room charges: "+inr(ch),"Prescriptions: "+(meds.join(", ")||"none"),"Advice  : Follow up in 7 days. Complete the prescribed course."].join("\n");
+ p.admitted=false;p.pend=(p.pend||0)+ch;S.beds[w][j]=null;save();extra=`<h2 style="margin-top:16px">Discharge summary</h2><pre>${esc(sb)}</pre>`;toast("Patient discharged. Room charges added to billing.");render()}
+function pharmacy(){
+ return`<div class="grid"><div class="card"><h2>Prescribe medicine</h2><label>Patient</label><select id="x_p">${S.patients.map(p=>`<option value="${p.id}">${p.id} · ${esc(p.name)}</option>`).join("")}</select>
+ <label>Medicine</label><select id="x_m">${S.meds.map((m,i)=>`<option value="${i}">${esc(m.n)} (${m.s} in stock)</option>`).join("")}</select><label>Quantity</label><input type="number" id="x_q" value="10" min="1"><button class="btn" id="x_go">Prescribe and dispense</button></div>
+ <div class="card"><h2>Add stock</h2><label>New medicine name</label><input id="m_n"><div class="row"><div><label>Price (₹)</label><input type="number" id="m_p"></div><div><label>Quantity</label><input type="number" id="m_s"></div></div><button class="btn alt" id="m_go">Add to inventory</button></div>
+ <div class="card"><h2>Inventory</h2><div class="tw"><table><tr><th>Medicine</th><th>Price</th><th>Stock</th></tr>${S.meds.map(m=>`<tr><td>${esc(m.n)}</td><td>${inr(m.p)}</td><td>${m.s<20?`<span class="tag e">${m.s} low</span>`:m.s}</td></tr>`).join("")}</table></div></div>
+ <div class="card"><h2>Prescriptions</h2><div class="tw"><table><tr><th>Date</th><th>Patient</th><th>Medicine</th><th>Qty</th><th>Cost</th></tr>${S.rx.map(r=>`<tr><td>${r.date}</td><td>${esc(pname(r.pid))}</td><td>${esc(r.med)}</td><td>${r.qty}</td><td>${inr(r.cost)}</td></tr>`).join("")||"<tr><td colspan=5>No prescriptions yet.</td></tr>"}</table></div></div></div>`}
+function prescribe(){try{
+ const m=S.meds[+$("#x_m").value],q=+$("#x_q").value;
+ if(!(q>0))throw new HospitalError("InvalidQuantityException","Quantity must be at least 1.");
+ if(q>m.s)throw new HospitalError("OutOfStockException","Only "+m.s+" units of "+m.n+" in stock.");
+ m.s-=q;S.rx.push({pid:$("#x_p").value,med:m.n,qty:q,cost:q*m.p,date:TODAY(),billed:false});save();toast("Prescription saved. Stock updated.");render()
+}catch(e){handle(e)}}
+function billing(){
+ return`<div class="grid"><div class="card"><h2>Generate bill</h2><label>Patient</label><select id="g_p">${S.patients.map(p=>`<option value="${p.id}">${p.id} · ${esc(p.name)}</option>`).join("")}</select><label>Laboratory charges (₹)</label><input type="number" id="g_l" value="0" min="0"><button class="btn" id="g_go">Generate bill</button>${extra}</div>
+ <div class="card" style="grid-column:1/-1"><h2>Bills</h2><div class="tw"><table><tr><th>Bill</th><th>Patient</th><th>Consult</th><th>Medicine</th><th>Lab</th><th>Room</th><th>Total</th><th>Status</th></tr>${S.bills.map(b=>`<tr><td>${b.id}</td><td>${esc(pname(b.pid))}</td><td>${inr(b.c)}</td><td>${inr(b.m)}</td><td>${inr(b.l)}</td><td>${inr(b.r)}</td><td><b>${inr(b.total)}</b></td><td>${b.paid?'<span class="tag ok">Paid</span>':`<button class="btn sm" data-pay="${b.id}">Mark paid</button>`}</td></tr>`).join("")||"<tr><td colspan=8>No bills yet.</td></tr>"}</table></div></div></div>`}
+function genBill(){try{
+ const pid=$("#g_p").value,p=S.patients.find(p=>p.id===pid),l=+$("#g_l").value||0;if(l<0)throw new HospitalError("InvalidAmountException","Lab charges cannot be negative.");
+ const ap=S.appts.filter(a=>a.pid===pid&&!a.billed&&a.status!=="Cancelled"),rx=S.rx.filter(r=>r.pid===pid&&!r.billed);
+ const c=ap.reduce((s,a)=>s+a.fee,0),m=rx.reduce((s,r)=>s+r.cost,0),r=p.pend||0;
+ if(c+m+l+r===0)throw new HospitalError("NothingToBillException","No unbilled charges for "+p.name+".");
+ const sub=c+m+l+r,gst=Math.round(sub*0.05),id="B"+(1001+S.bills.length);
+ ap.forEach(a=>a.billed=true);rx.forEach(x=>x.billed=true);p.pend=0;
+ S.bills.push({id,pid,c,m,l,r,total:sub+gst,paid:false});save();
+ extra=`<h2 style="margin-top:16px">Billing summary</h2><pre>${esc(["BILL "+id+" | "+TODAY(),"Patient: "+p.name,"Consultation: "+inr(c),"Medicines:     "+inr(m),"Laboratory:    "+inr(l),"Room charges:  "+inr(r),"GST (5%):      "+inr(gst),"TOTAL:         "+inr(sub+gst)].join("\n"))}</pre>`;
+ toast("Bill "+id+" generated.");render()
+}catch(e){handle(e)}}
+const VIEW={Dashboard:dashboard,Patients:patients,Appointments:appointments,Beds:beds,Pharmacy:pharmacy,Billing:billing};
+function render(){
+ document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));
+ $("#main").innerHTML=VIEW[tab]();
+}
+document.addEventListener("click",e=>{const t=e.target,id=t.id,d=t.closest("[data-dis]");
+ if(id==="p_go")addPatient();else if(id==="a_go")book();else if(id==="b_go")admit();else if(id==="x_go")prescribe();else if(id==="g_go")genBill();
+ else if(id==="m_go"){try{const n=$("#m_n").value.trim(),p=+$("#m_p").value,s=+$("#m_s").value;if(!n||!(p>0)||!(s>0))throw new HospitalError("InvalidMedicineException","Enter a name, a price and a quantity above zero.");const m=S.meds.find(x=>x.n.toLowerCase()===n.toLowerCase());m?m.s+=s:S.meds.push({n,p,s});save();toast("Inventory updated.");render()}catch(x){handle(x)}}
+ else if(id==="r_go"){const o=$("#r_out");o.className="";o.textContent=schedule($("#r_d").value,+$("#r_n").value,+$("#r_g").value).map((d,i)=>"Session "+(i+1)+": "+d+" ("+days[new Date(d+"T00:00").getDay()]+")").join("\n")}
+ else if(t.dataset.done){S.appts.find(a=>a.id===t.dataset.done).status="Completed";save();render()}
+ else if(t.dataset.cancel){S.appts.find(a=>a.id===t.dataset.cancel).status="Cancelled";save();render()}
+ else if(t.dataset.pay){S.bills.find(b=>b.id===t.dataset.pay).paid=true;save();toast("Payment recorded.");render()}
+ else if(d){const[w,j]=d.dataset.dis.split(",").map(Number);discharge(w,j)}
+});
+document.addEventListener("input",e=>{if(e.target.id==="q"){pq=e.target.value;const p=e.target.selectionStart;render();const q=$("#q");q.focus();q.setSelectionRange(p,p)}});
+document.addEventListener("change",e=>{if(e.target.id==="srt"){psort=e.target.value;render()}});
+$("#exp").onclick=()=>{const u=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));const a=document.createElement("a");a.href=u;a.download="medicare-data.json";a.click();toast("Data exported (if your browser blocks downloads, use Copy below).")};
+$("#imp").onclick=()=>$("#file").click();
+$("#file").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.patients||!d.beds)throw new HospitalError("InvalidFileException","This is not a MediCare+ data file.");S=d;save();toast("Data imported.");render()}catch(x){handle(x)}};r.readAsText(f)};
+$("#rst").onclick=()=>{if(confirm("Reset all data to the demo set?")){S=seed();save();render();toast("Demo data restored.")}};
+render();
+</script>
+</body>
+</html>
